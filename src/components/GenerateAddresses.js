@@ -76,7 +76,7 @@ export default function GenerateAddresses() {
 
         <textarea
           className="input s-step-1"
-          placeholder="Enter your secret phrase here"
+          placeholder="Enter your old secret phrase here"
           type="text"
           onChange={(e) => setMnemonic(e.target.value)}
           value={Mnemonic}
@@ -91,7 +91,7 @@ export default function GenerateAddresses() {
             fontWeight: "bold",
           }}
         >
-          {`Generate & Sign Metadata`}
+          {`Step 1 -> Generate & Sign Metadata`}
           {isLoading && <div id="loader"></div>}
         </button>
         <h4 style={{ marginTop: 20 }}>Metadata:</h4>
@@ -120,7 +120,7 @@ export default function GenerateAddresses() {
             fontWeight: "bold",
           }}
         >
-          {`Copy Metadata`}
+          {`Step 2 -> Copy Metadata`}
         </button>
       </div>
     </>
