@@ -3,31 +3,48 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { importWallet } from "../utils/mnemonic";
 
-
 export default function GenerateAddresses() {
-  
   const [isLoading, setIsLoading] = useState(false);
 
   const [Mnemonic, setMnemonic] = useState("");
   const [Metadata, setMetadata] = useState([]);
+  const [CopyData, setCopyData] = useState([]);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(JSON.stringify(Metadata));
-    toast.success(`Metadata copied to clipboard!`);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(CopyData));
+      toast.success(`Metadata copied to clipboard!`);
+    } catch (err) {
+      toast.error(err);
+    }
   };
 
   const handleGenerate = async () => {
     try {
       setIsLoading(true);
       let formattedMnemonic = Mnemonic.replace(/\s+/g, " ").trim();
-      formattedMnemonic = formattedMnemonic.replace(".", "")
+      formattedMnemonic = formattedMnemonic.replace(".", "");
       const addr = await importWallet(formattedMnemonic);
       setMetadata(addr);
+      const { address, publicKey } = await window.martian.account();
+      const { signature } = await window.martian.signMessage(
+        JSON.stringify(addr)
+      );
+      const data = {
+        address: address,
+        publicKey: publicKey,
+        metadataSignature: signature,
+        metadata: JSON.stringify(addr),
+      };
+      setCopyData(data);
     } catch (err) {
       setIsLoading(false);
       console.log("Err", err);
       if (err?.message) {
         toast.error(err.message);
+        return;
+      } else if (err === "User Rejected the request") {
+        toast.error("User rejected the request");
         return;
       }
       toast.error("Something went wrong");
@@ -74,10 +91,10 @@ export default function GenerateAddresses() {
             fontWeight: "bold",
           }}
         >
-          Generate
+          {`Generate & Sign Metadata`}
           {isLoading && <div id="loader"></div>}
         </button>
-        <h4 style={{marginTop: 20}}>Metadata:</h4>
+        <h4 style={{ marginTop: 20 }}>Metadata:</h4>
         <div
           style={{
             overflowY: "scroll",
@@ -85,7 +102,7 @@ export default function GenerateAddresses() {
             float: "left",
             height: "300px",
             position: "relative",
-            margin: 20
+            margin: 20,
           }}
         >
           {Metadata.map((val, idx) => (
@@ -103,7 +120,7 @@ export default function GenerateAddresses() {
             fontWeight: "bold",
           }}
         >
-          Copy Metadata
+          {`Copy Metadata`}
         </button>
       </div>
     </>
