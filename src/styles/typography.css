@@ -1,0 +1,27 @@
+.font-bold {
+  font-weight: bold;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-gray {
+  color: #b1b1b1;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.text-green {
+  color: #15d791;
+}
+.text-darkgreen {
+  color: #13a46f;
+}
+
+.hover-underline:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
