@@ -3,6 +3,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { importWallet } from "../utils/mnemonic";
 
+const GOOGLE_FORM_URL = "https://forms.gle/"
+
 export default function GenerateAddresses() {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -18,6 +20,10 @@ export default function GenerateAddresses() {
       toast.error(err);
     }
   };
+
+  const openGoogleForm = () => {
+    window.open(GOOGLE_FORM_URL, '_blank', 'noopener,noreferrer');
+  }
 
   const handleGenerate = async () => {
     try {
@@ -100,7 +106,7 @@ export default function GenerateAddresses() {
             overflowY: "scroll",
             width: "500px",
             float: "left",
-            height: "300px",
+            height: "100px",
             position: "relative",
             margin: 20,
           }}
@@ -114,13 +120,26 @@ export default function GenerateAddresses() {
           className="filledBtn"
           style={{
             padding: "10px 25px",
-            marginBottom: 50,
+            marginBottom: 10,
             backgroundColor: "#15d791",
             color: "black",
             fontWeight: "bold",
           }}
         >
           {`Step 2 -> Copy Metadata`}
+        </button>
+        <button
+          onClick={() => openGoogleForm()}
+          className="filledBtn"
+          style={{
+            padding: "10px 25px",
+            marginBottom: 50,
+            backgroundColor: "#15d791",
+            color: "black",
+            fontWeight: "bold",
+          }}
+        >
+          {`Step 3 -> Open Google Form`}
         </button>
       </div>
     </>
