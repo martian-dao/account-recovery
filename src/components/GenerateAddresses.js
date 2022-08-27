@@ -3,7 +3,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { importWallet } from "../utils/mnemonic";
 
-const GOOGLE_FORM_URL = "https://forms.gle/"
+const GOOGLE_FORM_URL = "https://forms.gle/Wt2oJDJvw3EpSed28"
 
 export default function GenerateAddresses() {
   const [isLoading, setIsLoading] = useState(false);
