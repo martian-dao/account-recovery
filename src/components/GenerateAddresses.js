@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { importWallet } from "../utils/mnemonic";
 
-const GOOGLE_FORM_URL = "https://forms.gle/Wt2oJDJvw3EpSed28"
+import useOnScreen from "../hooks/useOnScreen";
+import ScrollDownIcon from "../scroll.png";
+
+const GOOGLE_FORM_URL = "https://forms.gle/Wt2oJDJvw3EpSed28";
 
 export default function GenerateAddresses() {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,6 +14,11 @@ export default function GenerateAddresses() {
   const [Mnemonic, setMnemonic] = useState("");
   const [Metadata, setMetadata] = useState([]);
   const [CopyData, setCopyData] = useState([]);
+
+  const topRef = useRef();
+  const bottomButtonRef = useRef();
+
+  const isPageOnTop = useOnScreen(topRef);
 
   const handleCopy = async () => {
     try {
@@ -22,8 +30,8 @@ export default function GenerateAddresses() {
   };
 
   const openGoogleForm = () => {
-    window.open(GOOGLE_FORM_URL, '_blank', 'noopener,noreferrer');
-  }
+    window.open(GOOGLE_FORM_URL, "_blank", "noopener,noreferrer");
+  };
 
   const handleGenerate = async () => {
     try {
@@ -75,6 +83,83 @@ export default function GenerateAddresses() {
           theme="dark"
           style={{ width: "auto", cursor: "pointer" }}
         />
+
+        <div
+          style={{ width: "100%", height: "5px", background: "transparent" }}
+          ref={topRef}
+        />
+        <p1 style={{ marginBottom: "20px", fontWeight: "600" }}>
+          We understand that some ecosystem projects have used your previous
+          devnet account addresses to reward/airdrop. Please know that there is
+          a high probability that your devnet address will be wiped out during
+          the Aptos network reset and you would not have the same account on
+          mainnet. The Martian Wallet team does not have any control over this.
+          <br />
+          <br />
+          We've built a tool that will bind your new account address to your
+          previous account address and Discord ID. We will share your new
+          account address and Discord ID with the ecosystem projects so that
+          they can replace your old account address with the Discord ID and new
+          account for future airdrops/rewards.
+          <br />
+          <br />
+          Here are the steps to bind your Discord ID and new account address to
+          your old account address:
+          <br />
+          <br />
+          <ol>
+            <li>
+              Copy your Discord ID from your account (see video here). Please
+              make sure that you only copy your unique Discord ID and not a
+              server nickname or part of your username.{" "}
+            </li>
+            <br />
+            <li>
+              Enter old mnemonic phrase in the web app to authenticate your old
+              account address (Martian Wallet does NOT save this mnemonic phrase
+              anywhere on the server)
+            </li>
+            <br />
+            <li>
+              Connect your wallet containing new account address and sign the
+              account recovery authentication.
+              <br />
+              <br />
+              Please understand that any assets in your previous wallets are
+              wiped by the Aptos network reset every week and it’s impossible to
+              recover those assets. The Aptos team does this to prepare for a
+              safe and reliable mainnet for all users.
+            </li>
+          </ol>
+        </p1>
+
+        <div
+          style={{
+            position: "fixed",
+            bottom: "50%",
+            right: "60px",
+            display: isPageOnTop ? "flex" : "none",
+            flexDirection: "column",
+            alignItems: "center",
+            cursor: "pointer",
+            transform: "translateY(50%)",
+          }}
+          onClick={() =>
+            bottomButtonRef.current?.scrollIntoView({ behavior: "smooth" })
+          }
+        >
+          <img
+            src={ScrollDownIcon}
+            alt="Scroll Icon"
+            style={{
+              width: "30px",
+              height: "30px",
+              objectFit: "cover",
+              marginBottom: "10px",
+            }}
+          />
+          <p1>Scroll Down</p1>
+        </div>
 
         <h2 style={{ marginBottom: "10px", fontWeight: "600" }}>
           Generate Metadata
@@ -129,6 +214,7 @@ export default function GenerateAddresses() {
           {`Step 2 -> Copy Metadata`}
         </button>
         <button
+          ref={bottomButtonRef}
           onClick={() => openGoogleForm()}
           className="filledBtn"
           style={{
