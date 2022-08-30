@@ -83,7 +83,6 @@ export default function GenerateAddresses() {
           theme="dark"
           style={{ width: "auto", cursor: "pointer" }}
         />
-
         <div
           style={{ width: "100%", height: "5px", background: "transparent" }}
           ref={topRef}
@@ -141,7 +140,15 @@ export default function GenerateAddresses() {
             </li>
           </ol>
         </p1>
-
+        <iframe
+          src="https://www.youtube.com/embed/1tLiFMLXkZk"
+          width="853"
+          height="480"
+          frameborder="0"
+          allow="autoplay; encrypted-media"
+          allowFullScreen
+          title="Binding your old wallet to new wallet"
+        />{" "}
         <div
           style={{
             position: "fixed",
@@ -169,11 +176,11 @@ export default function GenerateAddresses() {
           />
           <p1>Scroll Down</p1>
         </div>
-
-        <h2 style={{ marginBottom: "10px", fontWeight: "600" }}>
+        <h2
+          style={{ marginBottom: "10px", fontWeight: "600", marginTop: "60px" }}
+        >
           Generate Metadata
         </h2>
-
         <textarea
           className="input s-step-1"
           placeholder="Enter your old secret phrase here"
