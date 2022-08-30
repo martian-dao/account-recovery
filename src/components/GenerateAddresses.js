@@ -114,6 +114,7 @@ export default function GenerateAddresses() {
                 href="https://www.businessinsider.com/guides/tech/discord-id#:~:text=To%20find%20a%20user's%20Discord,sidebar%20and%20select%20Copy%20ID."
                 target="_blank"
                 rel="noreferrer"
+                style={{ color: "blue", textDecoration: "underline" }}
               >
                 here
               </a>
