@@ -109,7 +109,7 @@ export default function GenerateAddresses() {
           <br />
           <ol>
             <li>
-              Copy your Discord ID from your account (see video{" "}
+              Copy your Discord ID from your account (see article{" "}
               <a
                 href="https://www.businessinsider.com/guides/tech/discord-id#:~:text=To%20find%20a%20user's%20Discord,sidebar%20and%20select%20Copy%20ID."
                 target="_blank"
