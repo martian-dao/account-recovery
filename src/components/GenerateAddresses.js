@@ -91,27 +91,35 @@ export default function GenerateAddresses() {
         <p1 style={{ marginBottom: "20px", fontWeight: "600" }}>
           We understand that some ecosystem projects have used your previous
           devnet account addresses to reward/airdrop. Please know that there is
-          a high probability that your devnet address will be wiped out during
+          a high probability that your devnet address can be wiped out during
           the Aptos network reset and you would not have the same account on
           mainnet. The Martian Wallet team does not have any control over this.
           <br />
           <br />
           We've built a tool that will bind your new account address to your
-          previous account address and Discord ID. We will share your new
-          account address and Discord ID with the ecosystem projects so that
-          they can replace your old account address with the Discord ID and new
-          account for future airdrops/rewards.
+          previous account address. We will share your new account address
+          linked to your old account address with the ecosystem projects so that
+          they can replace your old account address with the new account address
+          for future airdrops/rewards.
           <br />
           <br />
-          Here are the steps to bind your Discord ID and new account address to
-          your old account address:
+          Here are the steps to bind your new account address to your old
+          account address:
           <br />
           <br />
           <ol>
             <li>
-              Copy your Discord ID from your account (see video here). Please
-              make sure that you only copy your unique Discord ID and not a
-              server nickname or part of your username.{" "}
+              Copy your Discord ID from your account (see video{" "}
+              <a
+                href="https://www.businessinsider.com/guides/tech/discord-id#:~:text=To%20find%20a%20user's%20Discord,sidebar%20and%20select%20Copy%20ID."
+                target="_blank"
+                rel="noreferrer"
+              >
+                here
+              </a>
+              ). Please make sure that you only copy your unique Discord ID and
+              not a server nickname or part of your username. Eg ID:
+              884524840114061379.
             </li>
             <br />
             <li>
