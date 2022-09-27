@@ -1,5 +1,5 @@
 {
-  "name": "generate-addresses",
+  "name": "get-credentials",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
@@ -30,6 +30,7 @@
       "react-app/jest"
     ]
   },
+  "pre-commit": [],
   "browserslist": {
     "production": [
       "chrome >= 67",

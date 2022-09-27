@@ -6,9 +6,7 @@ import { importWallet } from "../utils/mnemonic";
 import useOnScreen from "../hooks/useOnScreen";
 import ScrollDownIcon from "../scroll.png";
 
-const GOOGLE_FORM_URL = "https://forms.gle/Wt2oJDJvw3EpSed28";
-
-export default function GenerateAddresses() {
+export default function GetCredentials() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [Mnemonic, setMnemonic] = useState("");
@@ -23,14 +21,10 @@ export default function GenerateAddresses() {
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(JSON.stringify(CopyData));
-      toast.success(`Metadata copied to clipboard!`);
+      toast.success(`Credentials copied to clipboard!`);
     } catch (err) {
       toast.error(err);
     }
-  };
-
-  const openGoogleForm = () => {
-    window.open(GOOGLE_FORM_URL, "_blank", "noopener,noreferrer");
   };
 
   const handleGenerate = async () => {
@@ -38,19 +32,9 @@ export default function GenerateAddresses() {
       setIsLoading(true);
       let formattedMnemonic = Mnemonic.replace(/\s+/g, " ").trim();
       formattedMnemonic = formattedMnemonic.replace(".", "");
-      const addr = await importWallet(formattedMnemonic);
-      setMetadata(addr);
-      const { address, publicKey } = await window.martian.account();
-      const { signature } = await window.martian.signMessage(
-        JSON.stringify(addr)
-      );
-      const data = {
-        address: address,
-        publicKey: publicKey,
-        metadataSignature: signature,
-        metadata: JSON.stringify(addr),
-      };
-      setCopyData(data);
+      const pkData = await importWallet(formattedMnemonic);
+      setMetadata(pkData[0]);
+      setCopyData(pkData[0]);
     } catch (err) {
       setIsLoading(false);
       console.log("Err", err);
@@ -83,30 +67,27 @@ export default function GenerateAddresses() {
           theme="dark"
           style={{ width: "auto", cursor: "pointer" }}
         />
+
         <div
           style={{ width: "100%", height: "5px", background: "transparent" }}
           ref={topRef}
         />
-        <p1 style={{ marginBottom: "20px", fontWeight: "600" }}>
-          We understand that some ecosystem projects have used your previous
-          devnet account addresses to reward/airdrop. Please know that there is
-          a high probability that your devnet address can be wiped out during
-          the Aptos network reset and you would not have the same account on
-          mainnet. The Martian Wallet team does not have any control over this.
+        <h2 style={{ fontWeight: "600", marginBottom: "20px" }}>
+          Get Credentials
+        </h2>
+        <p1 style={{ marginBottom: "20px", fontWeight: "200" }}>
+          Note: We don't store or send your secret phrase anywhere.
           <br />
           <br />
-          We've built a tool that will bind your new account address to your
-          previous account address. We will share your new account address
-          linked to your old account address with the ecosystem projects so that
-          they can replace your old account address with the new account address
-          for future airdrops/rewards.
+          Everything is done on your local system and no network calls are made
+          to generate credentials from your secret phrase.
           <br />
           <br />
-          Here are the steps to bind your new account address to your old
-          account address:
-          <br />
-          <br />
-          <ol>
+          At this point you can also turn off your internet and proceed with
+          below steps.
+          {/* <br /> */}
+          {/* <br /> */}
+          {/* <ol>
             <li>
               Copy your Discord ID from your account (see article{" "}
               <a
@@ -138,9 +119,9 @@ export default function GenerateAddresses() {
               recover those assets. The Aptos team does this to prepare for a
               safe and reliable mainnet for all users.
             </li>
-          </ol>
+          </ol> */}
         </p1>
-        <iframe
+        {/* <iframe
           src="https://www.youtube.com/embed/1tLiFMLXkZk"
           width="853"
           height="480"
@@ -148,8 +129,8 @@ export default function GenerateAddresses() {
           allow="autoplay; encrypted-media"
           allowFullScreen
           title="Binding your old wallet to new wallet"
-        />{" "}
-        <div
+        />{" "} */}
+        {/* <div
           style={{
             position: "fixed",
             bottom: "50%",
@@ -175,15 +156,11 @@ export default function GenerateAddresses() {
             }}
           />
           <p1>Scroll Down</p1>
-        </div>
-        <h2
-          style={{ marginBottom: "10px", fontWeight: "600", marginTop: "60px" }}
-        >
-          Generate Metadata
-        </h2>
+        </div> */}
+
         <textarea
           className="input s-step-1"
-          placeholder="Enter your old secret phrase here"
+          placeholder="Enter your secret phrase here"
           type="text"
           onChange={(e) => setMnemonic(e.target.value)}
           value={Mnemonic}
@@ -198,22 +175,24 @@ export default function GenerateAddresses() {
             fontWeight: "bold",
           }}
         >
-          {`Step 1 -> Generate & Sign Metadata`}
+          {`Step 1 -> Generate Credentials`}
           {isLoading && <div id="loader"></div>}
         </button>
         <h4 style={{ marginTop: 20 }}>Metadata:</h4>
         <div
           style={{
             overflowY: "scroll",
-            width: "500px",
+            width: "700px",
             float: "left",
             height: "100px",
             position: "relative",
             margin: 20,
           }}
         >
-          {Metadata.map((val, idx) => (
-            <h5 key={idx}>{JSON.stringify(val)}</h5>
+          {Object.keys(Metadata).map((val, idx) => (
+            <h5 key={idx} style={{ margin: 10 }}>
+              {val} : {Metadata[val]}
+            </h5>
           ))}
         </div>
         <button
@@ -227,21 +206,7 @@ export default function GenerateAddresses() {
             fontWeight: "bold",
           }}
         >
-          {`Step 2 -> Copy Metadata`}
-        </button>
-        <button
-          ref={bottomButtonRef}
-          onClick={() => openGoogleForm()}
-          className="filledBtn"
-          style={{
-            padding: "10px 25px",
-            marginBottom: 50,
-            backgroundColor: "#15d791",
-            color: "black",
-            fontWeight: "bold",
-          }}
-        >
-          {`Step 3 -> Open Google Form`}
+          {`Step 2 -> Copy Credentials`}
         </button>
       </div>
     </>
