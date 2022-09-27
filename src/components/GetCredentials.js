@@ -1,22 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { importWallet } from "../utils/mnemonic";
 
-import useOnScreen from "../hooks/useOnScreen";
-import ScrollDownIcon from "../scroll.png";
-
 export default function GetCredentials() {
   const [isLoading, setIsLoading] = useState(false);
-
   const [Mnemonic, setMnemonic] = useState("");
+  const [Address, setAddress] = useState("");
   const [Metadata, setMetadata] = useState([]);
   const [CopyData, setCopyData] = useState([]);
-
-  const topRef = useRef();
-  const bottomButtonRef = useRef();
-
-  const isPageOnTop = useOnScreen(topRef);
 
   const handleCopy = async () => {
     try {
@@ -29,20 +21,27 @@ export default function GetCredentials() {
 
   const handleGenerate = async () => {
     try {
-      setIsLoading(true);
+      setIsLoading(true); 
       let formattedMnemonic = Mnemonic.replace(/\s+/g, " ").trim();
+      let formattedAddress = Address.replace(/\s+/g, " ").trim();
       formattedMnemonic = formattedMnemonic.replace(".", "");
-      const pkData = await importWallet(formattedMnemonic);
+      const pkData = await importWallet(formattedMnemonic, formattedAddress);
+      if (pkData.length === 0) {
+        toast.error("Account not found with given address");
+        setIsLoading(false);
+        return;
+      }
       setMetadata(pkData[0]);
       setCopyData(pkData[0]);
     } catch (err) {
       setIsLoading(false);
-      console.log("Err", err);
       if (err?.message) {
         toast.error(err.message);
+        setIsLoading(false);
         return;
       } else if (err === "User Rejected the request") {
         toast.error("User rejected the request");
+        setIsLoading(false);
         return;
       }
       toast.error("Something went wrong");
@@ -70,12 +69,11 @@ export default function GetCredentials() {
 
         <div
           style={{ width: "100%", height: "5px", background: "transparent" }}
-          ref={topRef}
         />
         <h2 style={{ fontWeight: "600", marginBottom: "20px" }}>
           Get Credentials
         </h2>
-        <p1 style={{ marginBottom: "20px", fontWeight: "200" }}>
+        <p style={{ marginBottom: "20px", fontWeight: "200" }}>
           Note: We don't store or send your secret phrase anywhere.
           <br />
           <br />
@@ -85,78 +83,7 @@ export default function GetCredentials() {
           <br />
           At this point you can also turn off your internet and proceed with
           below steps.
-          {/* <br /> */}
-          {/* <br /> */}
-          {/* <ol>
-            <li>
-              Copy your Discord ID from your account (see article{" "}
-              <a
-                href="https://www.businessinsider.com/guides/tech/discord-id#:~:text=To%20find%20a%20user's%20Discord,sidebar%20and%20select%20Copy%20ID."
-                target="_blank"
-                rel="noreferrer"
-                style={{ color: "blue", textDecoration: "underline" }}
-              >
-                here
-              </a>
-              ). Please make sure that you only copy your unique Discord ID and
-              not a server nickname or part of your username. Eg ID:
-              884524840114061379.
-            </li>
-            <br />
-            <li>
-              Enter old mnemonic phrase in the web app to authenticate your old
-              account address (Martian Wallet does NOT save this mnemonic phrase
-              anywhere on the server)
-            </li>
-            <br />
-            <li>
-              Connect your wallet containing new account address and sign the
-              account recovery authentication.
-              <br />
-              <br />
-              Please understand that any assets in your previous wallets are
-              wiped by the Aptos network reset every week and it’s impossible to
-              recover those assets. The Aptos team does this to prepare for a
-              safe and reliable mainnet for all users.
-            </li>
-          </ol> */}
-        </p1>
-        {/* <iframe
-          src="https://www.youtube.com/embed/1tLiFMLXkZk"
-          width="853"
-          height="480"
-          frameborder="0"
-          allow="autoplay; encrypted-media"
-          allowFullScreen
-          title="Binding your old wallet to new wallet"
-        />{" "} */}
-        {/* <div
-          style={{
-            position: "fixed",
-            bottom: "50%",
-            right: "60px",
-            display: isPageOnTop ? "flex" : "none",
-            flexDirection: "column",
-            alignItems: "center",
-            cursor: "pointer",
-            transform: "translateY(50%)",
-          }}
-          onClick={() =>
-            bottomButtonRef.current?.scrollIntoView({ behavior: "smooth" })
-          }
-        >
-          <img
-            src={ScrollDownIcon}
-            alt="Scroll Icon"
-            style={{
-              width: "30px",
-              height: "30px",
-              objectFit: "cover",
-              marginBottom: "10px",
-            }}
-          />
-          <p1>Scroll Down</p1>
-        </div> */}
+        </p>
 
         <textarea
           className="input s-step-1"
@@ -164,6 +91,13 @@ export default function GetCredentials() {
           type="text"
           onChange={(e) => setMnemonic(e.target.value)}
           value={Mnemonic}
+        />
+        <input
+          className="input s-step-1"
+          placeholder="Enter account address"
+          type="text"
+          onChange={(e) => setAddress(e.target.value)}
+          value={Address}
         />
         <button
           onClick={() => handleGenerate()}
@@ -175,8 +109,7 @@ export default function GetCredentials() {
             fontWeight: "bold",
           }}
         >
-          {`Step 1 -> Generate Credentials`}
-          {isLoading && <div id="loader"></div>}
+          {isLoading ? "Loading..." : `Step 1 -> Generate Credentials`}
         </button>
         <h4 style={{ marginTop: 20 }}>Metadata:</h4>
         <div
@@ -189,11 +122,12 @@ export default function GetCredentials() {
             margin: 20,
           }}
         >
-          {Object.keys(Metadata).map((val, idx) => (
-            <h5 key={idx} style={{ margin: 10 }}>
-              {val} : {Metadata[val]}
-            </h5>
-          ))}
+          {Metadata &&
+            Object.keys(Metadata).map((val, idx) => (
+              <h5 key={idx} style={{ margin: 10 }}>
+                {val} : {Metadata[val]}
+              </h5>
+            ))}
         </div>
         <button
           onClick={() => handleCopy()}
