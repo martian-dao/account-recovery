@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { importWallet } from "../utils/mnemonic";
+import PrimaryButton from "./PrimaryButton";
 
 export default function GetCredentials() {
   const [isLoading, setIsLoading] = useState(false);
   const [Mnemonic, setMnemonic] = useState("");
-  const [Address, setAddress] = useState("");
   const [Metadata, setMetadata] = useState([]);
   const [CopyData, setCopyData] = useState([]);
 
@@ -23,9 +23,8 @@ export default function GetCredentials() {
     try {
       setIsLoading(true); 
       let formattedMnemonic = Mnemonic.replace(/\s+/g, " ").trim();
-      let formattedAddress = Address.replace(/\s+/g, " ").trim();
       formattedMnemonic = formattedMnemonic.replace(".", "");
-      const pkData = await importWallet(formattedMnemonic, formattedAddress);
+      const pkData = await importWallet(formattedMnemonic);
       if (pkData.length === 0) {
         toast.error("Account not found with given address");
         setIsLoading(false);
@@ -92,25 +91,16 @@ export default function GetCredentials() {
           onChange={(e) => setMnemonic(e.target.value)}
           value={Mnemonic}
         />
-        <input
-          className="input s-step-1"
-          placeholder="Enter account address"
-          type="text"
-          onChange={(e) => setAddress(e.target.value)}
-          value={Address}
-        />
-        <button
+        <PrimaryButton
           onClick={() => handleGenerate()}
-          className="filledBtn"
+          width="100%"
           style={{
             padding: "10px 25px",
-            backgroundColor: "#15d791",
-            color: "black",
             fontWeight: "bold",
           }}
         >
           {isLoading ? "Loading..." : `Step 1 -> Generate Credentials`}
-        </button>
+        </PrimaryButton>
         <h4 style={{ marginTop: 20 }}>Metadata:</h4>
         <div
           style={{
@@ -129,19 +119,17 @@ export default function GetCredentials() {
               </h5>
             ))}
         </div>
-        <button
+        <PrimaryButton
           onClick={() => handleCopy()}
-          className="filledBtn"
+          width="100%"
           style={{
             padding: "10px 25px",
             marginBottom: 10,
-            backgroundColor: "#15d791",
-            color: "black",
             fontWeight: "bold",
           }}
         >
           {`Step 2 -> Copy Credentials`}
-        </button>
+        </PrimaryButton>
       </div>
     </>
   );

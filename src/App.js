@@ -1,6 +1,6 @@
 import React from "react";
 import Home from "./pages/Home";
-import logoSmall from "./logoSmall.png"
+import Logo from "./icons/logo.png";
 
 function App() {
   const websiteLink = "https://www.martianwallet.xyz/"
@@ -12,7 +12,7 @@ function App() {
           <Home />
       }
           <a href={websiteLink} target="_blank" style={{ top: "30px", left: "70px" }} className="absolute_div">
-                    <img src={logoSmall} alt="Martian" />
+                    <img src={Logo} alt="Martian" />
                     <p color="white">Martian</p>
                 </a>
       </div>
