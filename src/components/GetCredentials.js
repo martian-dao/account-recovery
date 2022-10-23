@@ -3,12 +3,35 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { importWallet } from "../utils/mnemonic";
 import PrimaryButton from "./PrimaryButton";
+import MaterialReactTable from "material-react-table";
 
 export default function GetCredentials() {
   const [isLoading, setIsLoading] = useState(false);
   const [Mnemonic, setMnemonic] = useState("");
   const [Metadata, setMetadata] = useState([]);
   const [CopyData, setCopyData] = useState([]);
+
+  const columns = React.useMemo(
+    () => [
+      {
+        accessorKey: "address", //simple recommended way to define a column
+        header: "Address",
+      },
+      {
+        accessorKey: "publicKey", //simple recommended way to define a column
+        header: "Public Key",
+      },
+      {
+        accessorKey: "privateKey", //simple recommended way to define a column
+        header: "Private Key",
+      },
+      {
+        accessorKey: "derivationPath", //simple recommended way to define a column
+        header: "Derivation Path",
+      },
+    ],
+    []
+  );
 
   const handleCopy = async () => {
     try {
@@ -21,7 +44,7 @@ export default function GetCredentials() {
 
   const handleGenerate = async () => {
     try {
-      setIsLoading(true); 
+      setIsLoading(true);
       let formattedMnemonic = Mnemonic.replace(/\s+/g, " ").trim();
       formattedMnemonic = formattedMnemonic.replace(".", "");
       const pkData = await importWallet(formattedMnemonic);
@@ -30,8 +53,8 @@ export default function GetCredentials() {
         setIsLoading(false);
         return;
       }
-      setMetadata(pkData[0]);
-      setCopyData(pkData[0]);
+      setMetadata(pkData);
+      setCopyData(pkData);
     } catch (err) {
       setIsLoading(false);
       if (err?.message) {
@@ -70,7 +93,7 @@ export default function GetCredentials() {
           style={{ width: "100%", height: "5px", background: "transparent" }}
         />
         <h2 style={{ fontWeight: "600", marginBottom: "20px" }}>
-          Get Credentials (Recovery)
+          Get Credentials
         </h2>
         <p style={{ marginBottom: "20px", fontWeight: "200" }}>
           Note: We don't store or send your secret phrase anywhere.
@@ -85,6 +108,7 @@ export default function GetCredentials() {
         </p>
 
         <textarea
+          style={{ width: "50%" }}
           className="input s-step-1"
           placeholder="Enter your secret phrase here"
           type="text"
@@ -93,7 +117,7 @@ export default function GetCredentials() {
         />
         <PrimaryButton
           onClick={() => handleGenerate()}
-          width="100%"
+          width="50%"
           style={{
             padding: "10px 25px",
             fontWeight: "bold",
@@ -105,23 +129,24 @@ export default function GetCredentials() {
         <div
           style={{
             overflowY: "scroll",
-            width: "700px",
+            border: 'solid',
+            padding: "2rem",
+            width: "90vw",
             float: "left",
-            height: "100px",
+            height: "500px",
             position: "relative",
             margin: 20,
           }}
         >
-          {Metadata &&
-            Object.keys(Metadata).map((val, idx) => (
-              <h5 key={idx} style={{ margin: 10 }}>
-                {val} : {Metadata[val]}
-              </h5>
-            ))}
+          <MaterialReactTable
+            columns={columns}
+            data={Metadata}
+            enablePagination={false} //disable a default feature
+          />
         </div>
         <PrimaryButton
           onClick={() => handleCopy()}
-          width="100%"
+          width="50%"
           style={{
             padding: "10px 25px",
             marginBottom: 10,
