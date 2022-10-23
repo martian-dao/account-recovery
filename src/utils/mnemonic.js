@@ -3,7 +3,7 @@ import { Buffer } from "buffer";
 window.Buffer = Buffer;
 
 const DERIVATION_PATH_1 = "m/44'/123420'/I'/0'/J"
-const DERIVATION_PATH_2 = "m/44'/637'/I'/0'/J"
+const DERIVATION_PATH_2 = "m/44'/637'/I'/0/J"
 const DERIVATION_PATH_3 = "m/44'/637'/I'/0'/J'"
 
 const walletClient = new WalletClient('https://rpc.mainnet.aptos.fernlabs.xyz/v1', 'dummy')
