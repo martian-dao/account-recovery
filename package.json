@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "@martiandao/aptos-web3-bip44.js": "^1.2.12",
+    "@martiandao/aptos-web3-bip44.js": "1.1.16",
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",

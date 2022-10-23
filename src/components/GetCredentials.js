@@ -70,7 +70,7 @@ export default function GetCredentials() {
           style={{ width: "100%", height: "5px", background: "transparent" }}
         />
         <h2 style={{ fontWeight: "600", marginBottom: "20px" }}>
-          Get Credentials
+          Get Credentials (Recovery)
         </h2>
         <p style={{ marginBottom: "20px", fontWeight: "200" }}>
           Note: We don't store or send your secret phrase anywhere.
