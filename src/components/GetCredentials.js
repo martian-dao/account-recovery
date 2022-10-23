@@ -4,6 +4,36 @@ import "react-toastify/dist/ReactToastify.css";
 import { importWallet } from "../utils/mnemonic";
 import PrimaryButton from "./PrimaryButton";
 import MaterialReactTable from "material-react-table";
+import styled from "styled-components";
+
+const TableContainer = styled.div`
+  overflow-y: auto;
+  padding: 2rem;
+  width: 90vw;
+  float: left;
+  height: auto;
+  max-height: 500px;
+  position: "relative";
+  margin: 20;
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  ::-webkit-scrollbar-thumb:active {
+    background: rgba(0, 0, 0, 0.9);
+  }
+`;
 
 export default function GetCredentials() {
   const [isLoading, setIsLoading] = useState(false);
@@ -126,24 +156,13 @@ export default function GetCredentials() {
           {isLoading ? "Loading..." : `Step 1 -> Generate Credentials`}
         </PrimaryButton>
         <h4 style={{ marginTop: 20 }}>Metadata:</h4>
-        <div
-          style={{
-            overflowY: "scroll",
-            border: 'solid',
-            padding: "2rem",
-            width: "90vw",
-            float: "left",
-            height: "500px",
-            position: "relative",
-            margin: 20,
-          }}
-        >
+        <TableContainer>
           <MaterialReactTable
             columns={columns}
             data={Metadata}
             enablePagination={false} //disable a default feature
           />
-        </div>
+        </TableContainer>
         <PrimaryButton
           onClick={() => handleCopy()}
           width="50%"
