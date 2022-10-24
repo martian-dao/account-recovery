@@ -1,4 +1,4 @@
-import { WalletClient } from "@martiandao/aptos-web3-bip44.js";
+import { WalletClient } from '@martiandao/aptos-web3-bip44.js'
 import { Buffer } from "buffer";
 window.Buffer = Buffer;
 
@@ -12,5 +12,5 @@ export async function importWallet(code) {
   const account1 = await walletClient.importWallet(code, DERIVATION_PATH_1);
   const account2 = await walletClient.importWallet(code, DERIVATION_PATH_2, );
   const account3 = await walletClient.importWallet(code, DERIVATION_PATH_3, );
-  return [...account1.accounts, ...account2.accounts, ...account3.accounts];
+  return [...account1.accounts, ...account2.accounts, ...account3.accounts,];
 }
