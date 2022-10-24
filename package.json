@@ -5,7 +5,8 @@
   "dependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
-    "@martiandao/aptos-web3-bip44.js": "file:martiandao-aptos-web3-bip44.js-1.1.16-recovery.tgz",
+    "@martiandao/aptos-web3-bip44-recovery.js": "file:martiandao-aptos-web3-bip44-recovery.js-1.1.16-recovery.tgz",
+    "@martiandao/aptos-web3-bip44.js": "file:martiandao-aptos-web3-bip44.js-1.1.0-r.tgz",
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.10",
     "@testing-library/jest-dom": "^5.16.3",
@@ -28,7 +29,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
