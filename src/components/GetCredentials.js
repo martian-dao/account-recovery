@@ -76,7 +76,7 @@ export default function GetCredentials() {
     try {
       setIsLoading(true);
       let formattedMnemonic = Mnemonic.replace(/\s+/g, " ").trim();
-      formattedMnemonic = formattedMnemonic.replace(".", "");
+      // formattedMnemonic = formattedMnemonic.replace(".", "");
       const pkData = await importWallet(formattedMnemonic);
       if (pkData.length === 0) {
         toast.error("Account not found with given address");
