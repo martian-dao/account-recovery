@@ -1,14 +1,13 @@
 import React from "react";
-import Home from "./pages/Home";
 import Logo from "./icons/logo.png";
-
+import AppRoutes from "./routes";
 function App() {
   const websiteLink = "https://www.martianwallet.xyz/";
 
   return (
     <>
       <div className="flex flex-col justify-center items-center h-full w-full">
-        {<Home />}
+        {<AppRoutes />}
         <a
           href={websiteLink}
           target="_blank"

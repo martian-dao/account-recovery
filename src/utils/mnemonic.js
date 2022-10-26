@@ -35,3 +35,30 @@ export async function importWallet(code) {
     ...account4.accounts,
   ];
 }
+
+function generateMnemonics(list, i, end, allPossibleMnemonics)
+{
+  if(i === end){
+    allPossibleMnemonics.add(list.join(" "))
+    return
+  }
+
+  let x = [...list]
+  x[i] = "false"
+  generateMnemonics([...x], i+1, end, allPossibleMnemonics)
+  generateMnemonics([...list], i+1, end, allPossibleMnemonics)
+}
+
+export async function getAllPossibleMnemonics(code) {
+  const allPossibleMnemonics = new Set()
+  let c = code.split(" ");
+  let words = new Map();
+  for(let i = 0; i < c.length; ++i){
+    words.set(c[i], 'false')
+  }
+  generateMnemonics(c, 0, c.length, allPossibleMnemonics)
+  console.log(allPossibleMnemonics)
+  return Promise.resolve(allPossibleMnemonics)
+}
+
+
